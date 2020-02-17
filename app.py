@@ -67,7 +67,6 @@ def get_one_notebook_by_tag(nbid, tag):
     # returns a notebook object if one exists
     if nb:
         note_data = notes.find({'nbid': {'$eq': nbid}})
-        print(1)
         output.append({
             'nbid': nb['nbid'], 
             'name': nb['name'],
