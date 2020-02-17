@@ -61,7 +61,7 @@ def get_one_notebook(nbid):
         no_content()
 
 @app.route('/notebook/<int:nbid>/<string:tag>', methods=['GET'])
-def get_one_notebook(nbid, tag):
+def get_one_notebook_by_tag(nbid, tag):
     output = []
     nb = notebooks.find_one({'nbid': nbid})
     # returns a notebook object if one exists
@@ -73,20 +73,20 @@ def get_one_notebook(nbid, tag):
             'name': nb['name'],
             'notes': []})
         for n in note_data:
-            output[0]['notes'].append({
-                'nid': n['nid'], 
-                'title' : n['title'],
-                'nbid': n['nbid'],
-                'body': n['body'],
-                'tags': n['tags'],
-                'created': n['created'],
-                'lastModified': n['lastModified']            
-            })
+            if tag in n['tags']:
+                output[0]['notes'].append({
+                    'nid': n['nid'], 
+                    'title' : n['title'],
+                    'nbid': n['nbid'],
+                    'body': n['body'],
+                    'tags': n['tags'],
+                    'created': n['created'],
+                    'lastModified': n['lastModified']            
+                })
         return jsonify({'result' : output})
     # returns a 204 status code if not
     else:
         no_content()
-
 
 # route for posting a new notebook
 @app.route('/notebook', methods=['POST'])
@@ -197,7 +197,7 @@ def get_one_note(nid):
 def post_note():
     output = []
     title = request.json.get('title')
-    body = request.json.get('body')
+    body = request.json.get('body', '')
     tags = request.json.get('tags', [])
     nbid = request.json.get('nbid')
     # returns a 400 status if any of the values passed in the body are the wrong type
@@ -248,8 +248,7 @@ def edit_note(nid):
     if note:
         title = request.json.get('title')
         body = request.json.get('body')
-        tags = request.json.get('tags', [])
-        nbid = request.json.get('nbid')
+        tags = request.json.get('tags')
         data = {'lastModified': datetime.utcnow()}
         # check the values passed in the body for the correct type
         if isinstance(title, str):
@@ -265,11 +264,6 @@ def edit_note(nid):
         if isinstance(tags, list):
             data["tags"] = tags
         elif tags:
-            missing_or_invalid_key()
-
-        if isinstance(nbid, int):
-            data["nbid"] = nbid
-        elif nbid:
             missing_or_invalid_key()
 
         # updates the selected note and returns the updated note
