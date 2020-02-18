@@ -35,7 +35,7 @@
 ### POST body format
 `{name: <string:notebook_name>}`
 
-## GET, PUT, or DELETE a notebook by ID number
+## GET, PUT or DELETE a notebook by ID number
 `/notebook/<int:id>`
 
 ## GET a notebook by ID number and retrieve only the notes with a given tag
