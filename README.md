@@ -22,22 +22,22 @@
 
 # Routes
 
-## Post and Get notes
+## POST and GET notes
 `/note`
-### Post body format
+### POST body format
 `{'title': <string:title>, 'nbid': <int:notebook_id>, 'body': <string:note_body>, tags:<list:note_tags>}`
 
-## Get a single note by ID number
+## GET, PUT or DELETE a single note by ID number
 `/note/<int:id>`
 
-## Post notebook body
+## POST notebook body
 `/notebook`
-### Post body format
+### POST body format
 `{name: <string:notebook_name>}`
 
-## Get a notebook by ID number
+## GET, PUT, or DELETE a notebook by ID number
 `/notebook/<int:id>`
 
-## Get a notebook by ID number and retrieve only the notes with a given tag
+## GET a notebook by ID number and retrieve only the notes with a given tag
 `/notebook/<int:id>/<string:tag>`
 
