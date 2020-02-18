@@ -17,6 +17,7 @@
 ## To run this app in a docker container
 
 `sudo docker-compose build`
+
 `sudo docker-compose up`
 
 # Routes
