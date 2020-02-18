@@ -2,11 +2,15 @@
 from flask import Flask, jsonify, request, make_response, Response, abort
 from flask_pymongo import PyMongo
 from datetime import datetime
+import os
 
 app = Flask(__name__)
 
 app.config['MONGO_DBNAME'] = 'restdb'
-app.config['MONGO_URI'] = 'mongodb://localhost:27017/notes'
+if os.environ.get('DB_ENV_MONGO_VERSION'):
+    app.config['MONGO_URI'] = 'mongodb://db:27017/notes'
+else:
+    app.config['MONGO_URI'] = 'mongodb://localhost:27017/notes'
 
 mongo = PyMongo(app)
 notebooks = mongo.db.notebooks
@@ -294,3 +298,6 @@ def delete_note(nid):
         return jsonify({'result' : output})
     else:
         no_content()
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', debug=False)

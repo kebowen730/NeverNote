@@ -7,6 +7,7 @@ web:
     - .:/app
   links:
     - db
-  command: tail -f /dev/null
 db:
   image: mongo:3.6.1
+  ports:
+    - "27017:27017"

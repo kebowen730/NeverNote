@@ -4,6 +4,7 @@ from datetime import datetime
 from freezegun import freeze_time
 import time
 
+
 def clear_db_and_add_notebook():
 	notebooks.drop()
 	notes.drop()
